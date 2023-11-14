@@ -4,17 +4,19 @@
 
 ## Goals
 - [x] <s>Expo 프로젝트 생성</s>
-- [ ] 공통 디자인 컴포넌트 제작
 - [ ] Eject from Expo to CLI
 - [ ] 앱푸시 기능 구현
 
 
 ## Quick Start
++ setting: install Node.js v18.18.0
+
 + install
 ```
 git clone https://github.com/EscapeRoomEngs/waitring-react-native.git
 npm install
 ```
+
 + run Expo app
 ```
 npm start
@@ -27,7 +29,6 @@ then run emulators with `i` (iOS) or `a` (Android)
 /waitring-react-native (this project folder)
 +-- assets/         : all svg files inside this folder
 +-- components/
-|   +-- common/     : 공통 디자인 컴포넌트 정의
 +-- redux/
 |   +-- slices/     : define all store reducers and actions
 |   +-- store.js

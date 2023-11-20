@@ -10,6 +10,8 @@ import {
 
 import ArrowBack from "../../assets/icons/arrow-back.svg";
 import { themeColors } from "../../styles/variables";
+const WaitringFormButton = require("../../assets/icons/waitring-form-button.svg");  //todo 삭제
+import BottomButton from "../../components/BottomButton";
 
 const SignUp = () => {
 	
@@ -40,9 +42,10 @@ const SignUp = () => {
                 </TextInput>
 			</View>
 			
-			<View style={[stylesButtonBottom, stylesButtonBottom.orange]}>
-				<Text style={stylesButtonBottom.orange.text}>인증번호 받기</Text>
-			</View>
+			<BottomButton name="인증번호 받기"
+                disabled={true}
+                icon={WaitringFormButton}
+            />
 		</SafeAreaView>
 	);
 };
@@ -123,23 +126,6 @@ const stylesStoreArea = StyleSheet.create({
 			borderRadius: 8,
 			objectFit: true,
 		},
-	},
-});
-
-const stylesButtonBottom = StyleSheet.create({
-	position: "absolute",
-	bottom: 0,
-	right: 0,
-	left: 0,
-	gap: 8,
-	flexDirection: "row",
-	alignItems: "center",
-	justifyContent: "center",
-	paddingTop: 20,
-	paddingBottom: Platform.OS === "ios" ? 36 : 20,
-	orange: {
-		backgroundColor: themeColors.orange500,
-		text: { fontSize: 18, fontWeight: "700", color: "white" },
 	},
 });
 

@@ -1,37 +1,27 @@
 import React from "react";
 
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    Image,
-    Icon,
-    TouchableOpacity
-  } from "react-native";
+import { Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 
-import WaitringFormButton from '../assets/icons/waitring-form-button.svg';
+import WaitringFormButton from "../assets/icons/waitring-form-button.svg";
 import { themeColors } from "../styles/variables";
 
-const BottomButton = ({name, onClick, disabled, icon}) => {
-
-    return (
-        <TouchableOpacity 
-            activeOpacity={0.7}
-            style={[stylesButtonBottom, stylesButtonBottom.orange]}
-            disabled={disabled}
-            onPress={onClick}>
-            
-            <Image source={icon} style={icon != null ? stylesButtonBottom.icon : null}/>
+const BottomButton = ({ name, onClick, disabled, icon }) => {
+	return (
+		<TouchableOpacity
+			activeOpacity={0.7}
+			style={[stylesButtonBottom, stylesButtonBottom.orange]}
+			disabled={disabled}
+			onPress={onClick}>
+			{icon === "waitring" && <WaitringFormButton style={stylesButtonBottom.icon} />}
 			<Text style={stylesButtonBottom.orange.text}>{name}</Text>
-        </TouchableOpacity>
-    )
-
-}
+		</TouchableOpacity>
+	);
+};
 
 BottomButton.defaultProps = {
-    disabled : true,
-    icon : null
-}
+	disabled: false,
+	icon: "",
+};
 
 export default BottomButton;
 
@@ -48,8 +38,8 @@ const stylesButtonBottom = StyleSheet.create({
 	paddingBottom: Platform.OS === "ios" ? 36 : 20,
 	icon: {
 		width: 24,
-        resizeMode: 'contain',
-		aspectRatio: 1
+		resizeMode: "contain",
+		aspectRatio: 1,
 	},
 	orange: {
 		backgroundColor: themeColors.orange500,

@@ -9,4 +9,6 @@ export const themeColors = {
     orange100: "#FFF2E9",
     orange300: "#FB974B",
     orange500: "#FF3D00",
+
+    borderBottom : "#AFAFAF"
 }

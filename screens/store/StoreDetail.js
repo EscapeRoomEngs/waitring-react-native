@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -10,8 +10,15 @@ import Favorite from "../../assets/icons/favorite.svg";
 import StoreMainImage from "../../assets/images/store-main-1.jpeg";
 import ArrowDown from "../../assets/icons/arrow-down.svg";
 import { themeColors } from "../../styles/variables";
+import { getStoreDetail } from "../../apis/store/stores";
 
 const StoreDetail = () => {
+	/**
+	 * API 요청 예시
+	 */
+	useEffect(() => {
+		getStoreDetail(1, (value) => console.log(value));
+	}, []);
 	const keywords = ["음식이 맛있어요 👍", "분위기가 좋아요🍷", "+2"];
 	const reviews = [
 		{
@@ -248,7 +255,7 @@ const stylesReviewArea = StyleSheet.create({
 	buttonMore: {
 		position: "absolute",
 		bottom: 0,
-		zIndex:3,
+		zIndex: 3,
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",

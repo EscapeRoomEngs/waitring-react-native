@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useState,  useEffect} from "react";
 import {
   Platform,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
-  TextInput
+  TouchableOpacity
 } from "react-native";
 
 import ArrowBack from "../../assets/icons/arrow-back.svg";
 import { themeColors } from "../../styles/variables";
-const WaitringFormButton = require("../../assets/icons/waitring-form-button.svg");  //todo 삭제
+
 import BottomButton from "../../components/BottomButton";
+import TextInputField from "../../components/TextInputField";
+import KeyboardView from "../../components/KeyboardView";
 
 const SignUp = () => {
 	
+    const [step, setStep] = useState(SignupStep.PhoneNo);
+	const [phoneNo, setPhoneNo] = useState("");
+
 	return (
+		<KeyboardView children = {
+
 		<SafeAreaView
 			style={{
 				flex: 1,
@@ -25,28 +32,83 @@ const SignUp = () => {
 			<View style={stylesHeaderNav.header}>
 				<ArrowBack style={stylesHeaderNav.headerIcon} />
 			</View>
-			<View style={stylesStoreArea}>
-				<View style={stylesStoreArea.storeHeader}>
-					<View style={stylesStoreArea.storeHeader.addressArea}>
-						<Text style={stylesStoreArea.storeHeader.addressArea.title}>
+			<View style={stylesSignUpArea}>
+				<View style={stylesSignUpArea.storeHeader}>
+					<View style={stylesSignUpArea.storeHeader.addressArea}>
+						<Text style={stylesSignUpArea.storeHeader.addressArea.title}>
 							휴대폰번호로{"\n"}간편하게 가입해요!
 						</Text>
 					</View>
-					<Text style={stylesStoreArea.storeHeaderCaption}>
-                    휴대폰 번호는 안전하게 보관되며 공개되지 않습니다.
-					</Text>
+
+					<View style={{height:54}} />
+
+                    {/*전화번호 입력하는 단계*/}
+                    { step == SignupStep.PhoneNo &&
+                        <View style={stylesInputPhoneNo}>
+                            <Text style={stylesInputPhoneNo.title}>연락처</Text>
+                            <View style={stylesInputPhoneNo.content}>
+                                <TextInputField style={stylesInputPhoneNo.content.mobileCarrier} placeholder="todo"/>
+                                <TextInputField
+									value={phoneNo}
+									onValueChanged={(valueText) => setPhoneNo(valueText)}
+                                    keyboardType="numeric"
+									maxLength = {11}
+                                    placeholder="숫자만 입력(‘-’제외)"/>
+                            </View>
+                        </View>
+                    }
+
+
+                    {/*인증 입력하는 단계*/}
+					{step == SignupStep.DigitCode &&
+					<View style={{gap:24}}>
+						<View style={stylesInputDigitCode}>
+							<Text style={stylesInputDigitCode.title}>연락처</Text>
+							<View style={stylesInputDigitCode.content}>
+								<View style={stylesInputDigitCode.content.textArea}>
+
+								</View>
+								<TouchableOpacity style={stylesInputDigitCode.content.button}>
+								<Text>인증번호 재전송</Text>
+								</TouchableOpacity>
+							</View>
+							<Text style={stylesInputDigitCode.bottom}>인증문자가 발송되었습니다.{"\n"}인증문자를 받지 못했을 경우 스팸함을 확인해주세요</Text>
+							</View>
+
+							<View style={stylesInputDigitCode}>
+							<Text style={stylesInputDigitCode.title}>인증번호</Text>
+							<View style={stylesInputDigitCode.content}>
+								<View style={stylesInputDigitCode.content.textArea}>
+
+								</View>
+								<TouchableOpacity style={stylesInputDigitCode.content.button}
+								onPress={()=> setStep(SignupStep.Password)}>
+								<Text>인증번호 확인</Text>
+								</TouchableOpacity>
+							</View>
+							<Text style={stylesInputDigitCode.bottom}>시간 내에 입력하지 못한 경우 재시도해주세요.</Text>
+							</View>
+						</View>
+						}
+
+
+                    {/*비밀번호 입력하는 단계*/}
+						
+
+					{/*가입 완료*/}
+                    
+
 				</View>
-				<TextInput style={stylesStoreArea.phoneNumber}
-                placeholder="전화번호를 입력해주세요">
-            
-                </TextInput>
+				
 			</View>
+
 			
-			<BottomButton name="인증번호 받기"
-                disabled={true}
-                icon={WaitringFormButton}
-            />
-		</SafeAreaView>
+			{step == SignupStep.PhoneNo && <BottomButton name="인증번호 요청" disabled={phoneNo.length < 10} onClick={()=> setStep(SignupStep.DigitCode) }/>}
+            {step == SignupStep.DigitCode && <BottomButton name="회원가입 완료" disabled={true} />}
+            {step == SignupStep.Password && <BottomButton name="회원가입 완료"  onClick={()=> setStep(SignupStep.Finish) }/>}
+			{step == SignupStep.Finish && <BottomButton name="시작하기"/>} 
+        </SafeAreaView>
+		} />
 	);
 };
 
@@ -54,16 +116,18 @@ export default SignUp;
 
 const stylesHeaderNav = StyleSheet.create({
 	header: {
-		paddingTop: 16,
+		height: 56,
 		paddingHorizontal: 24,
+		justifyContent : "center"
 	},
 	headerIcon: {
 		width: 24,
 		aspectRatio: 1,
+		alignContent : "center"
 	},
 });
-const stylesStoreArea = StyleSheet.create({
-	paddingVertical: 40,
+const stylesSignUpArea = StyleSheet.create({
+	paddingVertical: 18,
 	gap: 40,
 	storeHeader: {
 		paddingHorizontal: 24,
@@ -82,50 +146,88 @@ const stylesStoreArea = StyleSheet.create({
 				fontWeight: "bold",
 				color: themeColors.gray900 || "#191919",
 			},
-			caption: {
-				color: themeColors.gray500 || "#888888",
-				fontSize: 14,
-				fontWeight: "normal",
-			},
+			
 		},
 	},
 	
-    phoneNumber : {
-        alignSelf: 'stretch',
-        paddingVertical: 12,
-        paddingHorizontal: 8,
-        borderBottomColor: themeColors.orange500,
-        margin:14,
-        borderBottomWidth: 1 
-    },
 
-	keywordItem: {
-		color: themeColors.gray700 || "#444444",
-		fontSize: 12,
-		lineHeight: 19,
-		fontWeight: "normal",
-		paddingVertical: 6,
-		paddingHorizontal: 16,
-		borderRadius: 20,
-		borderColor: "#F2F2F2",
-		borderWidth: 1,
-	},
-	storeImageArea: {
-		overflowX: "scroll",
-		flexDirection: "row",
-		imageContainer: {
-			overflowX: "scroll",
-			flexDirection: "row",
-			height: 150,
-			gap: 8,
-			marginHorizontal: 24,
-		},
-		imageItem: {
-			width: 275,
-			height: 150,
-			borderRadius: 8,
-			objectFit: true,
-		},
-	},
+	
 });
 
+/**
+ * phone number를 입력 받을 떄 사용
+ */
+const stylesInputPhoneNo = StyleSheet.create({
+    title: {
+        color: themeColors.gray900 || "#191919",
+        fontSize: 14,
+        fontWeight: "normal",
+    },
+    content: {
+        gap: 16,
+        flexDirection: "row",
+        mobileCarrier: {
+            alignSelf: 'stretch',
+            width : 96,
+            paddingVertical: 10,
+            paddingHorizontal: 8,
+            borderBottomColor: themeColors.borderBottom,
+            borderBottomWidth: 1 
+        }
+    }
+});
+
+/**
+ * 인증 번호 입력 시 사용
+ */
+const stylesInputDigitCode = StyleSheet.create({
+    title: {
+        color: themeColors.gray900 || "#191919",
+        fontSize: 14,
+        fontWeight: "normal",
+    },
+    content: {
+        gap: 16,
+        flexDirection: "row",
+        textArea: {
+            alignSelf: 'stretch',
+			flex: 1,
+			paddingVertical: 10,
+            paddingHorizontal: 8,
+            paddingVertical: 10,
+            paddingHorizontal: 8,
+            borderBottomColor: themeColors.borderBottom,
+            borderBottomWidth: 1 
+        },
+        button: {
+            width : 133,
+			height: 44,
+			color: themeColors.gray600,
+			backgroundColor: 'white',
+			borderWidth: 1,
+    		borderRadius: 8,
+    		borderColor: themeColors.borderBottom,
+    		alignItems: 'center',
+    		justifyContent: 'center',
+        },
+    },
+	bottom: {
+		color: themeColors.gray600,
+		paddingVertical: 8
+	}
+});
+
+
+/**
+ * 비밀번호 입력 시 사용
+ */
+
+/**
+ * 현재 가입 단계
+ */
+export const SignupStep = {
+    PhoneNo: "phoneNo",
+    DigitCode: "digitCode",
+    Password: "password",
+	Finish: "finish"
+};

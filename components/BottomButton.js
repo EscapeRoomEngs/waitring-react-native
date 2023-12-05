@@ -5,6 +5,17 @@ import { Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 import WaitringFormButton from "../assets/icons/waitring-form-button.svg";
 import { themeColors } from "../styles/variables";
 
+const ButtonIcon = ({iconName = ""}) => {
+	switch (iconName) {
+		case "waitring":
+			return <WaitringFormButton style={stylesButtonBottom.icon} />;
+		// TODO: 기타 타입 추가
+		case "":
+		default:
+			return;
+	}
+}
+
 const BottomButton = ({ name, onClick, disabled, icon }) => {
 	return (
 		<TouchableOpacity
@@ -12,7 +23,7 @@ const BottomButton = ({ name, onClick, disabled, icon }) => {
 			style={[stylesButtonBottom, disabled ? stylesButtonBottom.gray : stylesButtonBottom.orange]}
 			disabled={disabled}
 			onPress={onClick}>
-			{icon === "waitring" && <WaitringFormButton style={stylesButtonBottom.icon} />}
+			<ButtonIcon iconName={icon} />
 			<Text style={stylesButtonBottom.orange.text}>{name}</Text>
 		</TouchableOpacity>
 	);

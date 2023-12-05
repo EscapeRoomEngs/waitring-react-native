@@ -4,7 +4,7 @@ import { StyleSheet,TextInput } from "react-native";
 
 import { themeColors } from "../styles/variables";
 
-const TextInputField = ({ value, onValueChanged, keyboardType, placeholder, isPassword, style }) => {
+const TextInputField = ({ value, onValueChanged, keyboardType, placeholder, isPassword, style, disabled, maxLength}) => {
 
 	//const [isShownPassword, setShownPassword] = useState(false);
 	
@@ -16,12 +16,15 @@ const TextInputField = ({ value, onValueChanged, keyboardType, placeholder, isPa
 		keyboardType={keyboardType}
 		placeholder={placeholder}
 		onChange={(event) => onValueChanged(event.nativeEvent.text)}
+		disabled={disabled}
+		maxLength={maxLength}
 		/>
 	);
 };
 
 TextInputField.defaultProps = {
 	isPassword : false,
+	disabled: false,
 	style : {
 		alignSelf: 'stretch',
     	flex: 1,

@@ -4,29 +4,32 @@ import { StyleSheet,TextInput } from "react-native";
 
 import { themeColors } from "../styles/variables";
 
-const TextInputField = ({ keyboardType, placeholder, isPassword }) => {
+const TextInputField = ({ value, onValueChanged, keyboardType, placeholder, isPassword, style }) => {
 
-	const [isShownPassword, setShownPassword] = useState(false);
-
+	//const [isShownPassword, setShownPassword] = useState(false);
+	
 	return (
-		<TextInput style={stylesTextInputField}
-		
+		<TextInput 
+		value={value}
+		style={style}
+		secureTextEntry={isPassword}
 		keyboardType={keyboardType}
-		placeholder={placeholder}/>
+		placeholder={placeholder}
+		onChange={(event) => onValueChanged(event.nativeEvent.text)}
+		/>
 	);
 };
 
 TextInputField.defaultProps = {
-	isPassword : false
+	isPassword : false,
+	style : {
+		alignSelf: 'stretch',
+    	flex: 1,
+    	paddingVertical: 10,
+    	paddingHorizontal: 8,
+    	borderBottomColor: themeColors.borderBottom,
+    	borderBottomWidth: 1
+	}
 };
 
 export default TextInputField;
-
-const stylesTextInputField = StyleSheet.create({
-	alignSelf: 'stretch',
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    color: themeColors.borderBottom || "#AFAFAF",
-    borderBottomWidth: 1
-});

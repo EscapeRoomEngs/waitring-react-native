@@ -9,7 +9,7 @@ const BottomButton = ({ name, onClick, disabled, icon }) => {
 	return (
 		<TouchableOpacity
 			activeOpacity={0.7}
-			style={[stylesButtonBottom, stylesButtonBottom.orange]}
+			style={[stylesButtonBottom, disabled ? stylesButtonBottom.gray : stylesButtonBottom.orange]}
 			disabled={disabled}
 			onPress={onClick}>
 			{icon === "waitring" && <WaitringFormButton style={stylesButtonBottom.icon} />}
@@ -40,6 +40,10 @@ const stylesButtonBottom = StyleSheet.create({
 		width: 24,
 		resizeMode: "contain",
 		aspectRatio: 1,
+	},
+	gray: {
+		backgroundColor: themeColors.borderBottom,
+		text: { fontSize: 18, fontWeight: "700", color: "white" },
 	},
 	orange: {
 		backgroundColor: themeColors.orange500,

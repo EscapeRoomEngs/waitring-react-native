@@ -17,12 +17,15 @@ import KeyboardView from "../../components/KeyboardView";
 
 import InputPhoneNumber from "../../components/member/InputPhoneNumber"
 import InputDigitCode from "../../components/member/InputDigitCode";
+import InputPassword from "../../components/member/InputPassword";
 
 const SignUp = () => {
 
     const [step, setStep] = useState(SignupStep.PhoneNo);
     const [phoneNo, setPhoneNo] = useState("");
     const [digitCode, setDigitCode] = useState("");
+	const [password, setPassword] = useState("");
+	const [rePassword, setRePassword] = useState("");
 
     return (
         <KeyboardView children={
@@ -64,6 +67,15 @@ const SignUp = () => {
 
 
                     {/*비밀번호 입력하는 단계*/}
+					{step == SignupStep.Password &&
+						<InputPassword 
+						phoneNo={phoneNo} 
+						mobileCarrier={"todo"} 
+						password={password}
+						rePassword={rePassword}
+						setRePassword={setRePassword}
+						/>
+					}
 						
 
 					{/*가입 완료*/}

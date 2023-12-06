@@ -1,19 +1,22 @@
 import React from "react";
 
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 
 import TextInputField from "../TextInputField";
 import {themeColors} from "../../styles/variables";
 
-const InputPhoneNumber = ({phoneNo, setPhoneNo}) => {
+import ArrowDown from "../../assets/icons/arrow-down.svg"
+
+const InputPhoneNumber = ({mobileCarrier, setMobileCarrier, phoneNo, setPhoneNo}) => {
     return (
         
         <View style={stylesInputPhoneNo}>
             <Text style={stylesInputPhoneNo.title}>연락처</Text>
             <View style={stylesInputPhoneNo.content}>
-                <TextInputField
-                    style={stylesInputPhoneNo.content.mobileCarrier}
-                    placeholder="todo"/>
+                <TouchableOpacity style={stylesInputPhoneNo.content.mobileCarrier}>
+                        { mobileCarrier != "" ? <Text>{mobileCarrier}</Text> : <Text style={{color: themeColors.borderBottom}}>{"통신사"}</Text>}
+                        <ArrowDown width="20px" height="18px" resizeMode="contain"/>
+                    </TouchableOpacity>
                 <TextInputField
                     value={phoneNo}
                     onValueChanged={(valueText) => setPhoneNo(valueText)}
@@ -21,8 +24,6 @@ const InputPhoneNumber = ({phoneNo, setPhoneNo}) => {
                     maxLength={11}
                     placeholder="숫자만 입력(‘-’제외)"/>
             </View>
-
-            
         </View>
     )
 }
@@ -42,7 +43,9 @@ const stylesInputPhoneNo = StyleSheet.create({
         gap: 8,
         flexDirection: "row",
         mobileCarrier: {
-            alignSelf: 'stretch',
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexDirection: "row",
             width: 96,
             paddingVertical: 10,
             paddingHorizontal: 8,

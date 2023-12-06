@@ -4,8 +4,7 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    View,
-    TouchableOpacity
+    View
 } from "react-native";
 
 import ArrowBack from "../../assets/icons/arrow-back.svg";
@@ -22,6 +21,7 @@ import InputPassword from "../../components/member/InputPassword";
 const SignUp = () => {
 
     const [step, setStep] = useState(SignupStep.PhoneNo);
+	const [mobileCarrier, setMobileCarrier] = useState("")
     const [phoneNo, setPhoneNo] = useState("");
     const [digitCode, setDigitCode] = useState("");
 	const [password, setPassword] = useState("");
@@ -51,7 +51,7 @@ const SignUp = () => {
 
                     {/*전화번호 입력하는 단계*/}
                     { step == SignupStep.PhoneNo &&
-                        <InputPhoneNumber phoneNo={phoneNo} setPhoneNo={setPhoneNo} />
+                        <InputPhoneNumber mobileCarrier={mobileCarrier} setMobileCarrier={setMobileCarrier} phoneNo={phoneNo} setPhoneNo={setPhoneNo} />
                     }
 
 
@@ -59,7 +59,7 @@ const SignUp = () => {
 					{step == SignupStep.DigitCode &&
 						<InputDigitCode 
 						phoneNo={phoneNo} 
-						mobileCarrier={"todo"} 
+						mobileCarrier={mobileCarrier} 
 						digitCode={digitCode}
 						setDigitCode={setDigitCode}
 						onCheckDigitCode = {() => setStep(SignupStep.Password)}/>
@@ -70,7 +70,7 @@ const SignUp = () => {
 					{step == SignupStep.Password &&
 						<InputPassword 
 						phoneNo={phoneNo} 
-						mobileCarrier={"todo"} 
+						mobileCarrier={mobileCarrier} 
 						password={password}
 						rePassword={rePassword}
 						setRePassword={setRePassword}
@@ -90,7 +90,8 @@ const SignUp = () => {
             {step == SignupStep.DigitCode && <BottomButton name="회원가입 완료" disabled={true} />}
             {step == SignupStep.Password && <BottomButton name="회원가입 완료"  onClick={()=> setStep(SignupStep.Finish) }/>}
 			{step == SignupStep.Finish && <BottomButton name="시작하기"/>} 
-        </SafeAreaView>
+        
+		</SafeAreaView>
 		}/>
     );
 };

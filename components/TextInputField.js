@@ -26,7 +26,7 @@ TextInputField.defaultProps = {
 	isPassword : false,
 	disabled: false,
 	style : {
-		alignSelf: 'stretch',
+		alignSelf: 'center',
     	flex: 1,
     	paddingVertical: 10,
     	paddingHorizontal: 8,

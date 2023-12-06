@@ -5,6 +5,8 @@ import {View, Text, StyleSheet} from "react-native";
 import TextInputField from "../TextInputField";
 import {themeColors} from "../../styles/variables";
 
+import IconVerificationCompleted from "../../assets/icons/verification-completed.svg"
+
 const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePassword, setRePassword, }) => {
     return (
         <View style={{gap: 32}}>
@@ -20,7 +22,10 @@ const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePasswor
                             <Text>{mobileCarrier}</Text>
                             <Text>{phoneNo}</Text>
                         </View>
-                        <Text>{"인증완료"}</Text>
+                        <View style={{flexDirection: "row", gap:2}}>
+                            <IconVerificationCompleted />
+                            <Text>{"인증완료"}</Text>
+                        </View>
                     </View>
                 </View>
             </View>

@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "white",
         padding: 16,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
         title: {
             paddingVertical: 16,
             paddingHorizontal: 8,

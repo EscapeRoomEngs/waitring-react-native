@@ -13,29 +13,6 @@ const InputPhoneNumber = ({mobileCarrier, setMobileCarrier, phoneNo, setPhoneNo}
 
     const [ modalVisible, setModalVisible ] = useState(false);
 
-
-    const onClick = (title) => {
-        setMobileCarrier(item.title)
-        setModalVisible(false)
-    }
-
-    const modalList = [
-        {title: "SKT"},
-        {title: "KT"},
-        {title: "LG U+"},
-        {title: "SKT알뜰폰"},
-        {title: "KT알뜰폰"},
-        {title: "LG U+알뜰폰"},
-    ].map((item, index) => 
-    <TouchableOpacity 
-        key={index}
-        onPress={() =>
-            {setMobileCarrier(item.title); setModalVisible(false)}
-        }
-        style={{paddingHorizontal: 8, paddingVertical: 20}}>
-        <Text key={index} >{item.title}</Text> 
-        </TouchableOpacity> );
-
     return (
         <View style={stylesInputPhoneNo}>
             <Text style={stylesInputPhoneNo.title}>연락처</Text>
@@ -58,10 +35,22 @@ const InputPhoneNumber = ({mobileCarrier, setMobileCarrier, phoneNo, setPhoneNo}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
                 title = "통신사 선택"
-                children = {
-                    modalList
-                }
-            />
+                children = { [
+                    {title: "SKT"},
+                    {title: "KT"},
+                    {title: "LG U+"},
+                    {title: "SKT 알뜰폰"},
+                    {title: "KT 알뜰폰"},
+                    {title: "LG U+ 알뜰폰"},
+                ].map((item, index) => 
+                <TouchableOpacity 
+                    key={index}
+                    onPress={() =>
+                        {setMobileCarrier(item.title); setModalVisible(false)}
+                    }
+                    style={{paddingHorizontal: 8, paddingVertical: 20}}>
+                    <Text key={index} >{item.title}</Text> 
+                    </TouchableOpacity> )} />
 
         
         </View>

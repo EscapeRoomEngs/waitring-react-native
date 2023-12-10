@@ -8,6 +8,9 @@ import {themeColors} from "../../styles/variables";
 import IconVerificationCompleted from "../../assets/icons/verification-completed.svg"
 
 const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePassword, setRePassword, }) => {
+
+
+
     return (
         <View style={{gap: 32}}>
             <View style={stylesInputPassword}>
@@ -22,8 +25,8 @@ const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePasswor
                             <Text>{mobileCarrier}</Text>
                             <Text>{phoneNo}</Text>
                         </View>
-                        <View style={{flexDirection: "row", gap:2}}>
-                            <IconVerificationCompleted />
+                        <View style={{flexDirection: "row", gap:2, alignItems: "center"}}>
+                            {  <IconVerificationCompleted />}
                             <Text>{"인증완료"}</Text>
                         </View>
                     </View>
@@ -37,11 +40,16 @@ const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePasswor
                 <TextInputField
                         value={password}
                         onValueChanged={(valueText) => setPassword(valueText)}
-                        style={{}}
+                        style={{flex: 1,
+                            flexDirection: "row",
+                            alignItems: "center",}}
                         placeholder={"문자, 숫자, 특수문자 6자리 이상"}
                         isPassword={true}
                         maxLength={20}/>
-                        <Text>{"보안인증"}</Text>
+                        <View style={{flexDirection: "row", gap:2, alignItems: "center"}}>
+                           
+                            <Text>{"보안인증"}</Text>
+                        </View>
                 </View>
                 
 
@@ -83,6 +91,8 @@ const stylesInputPassword = StyleSheet.create({
         textArea: {
             flex: 1,
             flexDirection: "row",
+            alignItems: "center",
+            gap:8,
             justifyContent: "space-between",
             paddingVertical: 10,
             paddingHorizontal: 8,

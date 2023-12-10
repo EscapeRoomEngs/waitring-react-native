@@ -89,7 +89,7 @@ const SignUp = () => {
 			
 			{step == SignupStep.PhoneNo && <BottomButton name="인증번호 요청" disabled={phoneNo.length < 10 || mobileCarrier.length == 0} onClick={()=> setStep(SignupStep.DigitCode) }/>}
             {step == SignupStep.DigitCode && <BottomButton name="회원가입 완료" disabled={true} />}
-            {step == SignupStep.Password && <BottomButton name="회원가입 완료"  onClick={()=> setStep(SignupStep.Finish) }/>}
+            {step == SignupStep.Password && <BottomButton name="회원가입 완료" disabled={password < 6 || password != rePassword} onClick={()=> setStep(SignupStep.Finish) }/>}
 			{step == SignupStep.Finish && <BottomButton name="시작하기"/>} 
         
 		</SafeAreaView>

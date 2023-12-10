@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import {View, Text, StyleSheet} from "react-native";
 
@@ -6,10 +6,29 @@ import TextInputField from "../TextInputField";
 import {themeColors} from "../../styles/variables";
 
 import IconVerificationCompleted from "../../assets/icons/verification-completed.svg"
+import IconLockClose0 from "../../assets/icons/lock-closed-0.svg"
+import IconLockClose1 from "../../assets/icons/lock-closed-1.svg"
+import IconLockClose2 from "../../assets/icons/lock-closed-2.svg"
+import IconLockClose3 from "../../assets/icons/lock-closed-3.svg"
 
-const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePassword, setRePassword, }) => {
+import {checkPw} from "../../utils/Utils.js"
 
+const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePassword, setRePassword, securityPw, setSecurityPw}) => {
 
+    const [securityText, setSecurityText] = useState("보안없음")
+
+    useEffect(() => {
+        if(securityPw == 1) {setSecurityText("보안낮음")}
+        else if(securityPw == 2) {setSecurityText("보안중간")}
+        else if(securityPw == 3) {setSecurityText("보안높음")}
+        else {setSecurityText("설정불가")}
+        /*switch(securityPw) {
+            case 1 : {setSecurityText("보안낮음")}
+            case 2 : {setSecurityText("보안중간")}
+            case 3 : {setSecurityText("보안높음")}
+            default : {setSecurityText("설정불가")}
+        }*/
+    },[securityPw])
 
     return (
         <View style={{gap: 32}}>
@@ -39,7 +58,7 @@ const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePasswor
                 <View style={stylesInputPassword.content.textArea}>
                 <TextInputField
                         value={password}
-                        onValueChanged={(valueText) => setPassword(valueText)}
+                        onValueChanged={(valueText) => {setPassword(valueText); setSecurityPw(checkPw(valueText))} }
                         style={{flex: 1,
                             flexDirection: "row",
                             alignItems: "center",}}
@@ -47,8 +66,11 @@ const InputPassword = ({mobileCarrier, phoneNo, password, setPassword, rePasswor
                         isPassword={true}
                         maxLength={20}/>
                         <View style={{flexDirection: "row", gap:2, alignItems: "center"}}>
-                           
-                            <Text>{"보안인증"}</Text>
+                            {securityPw == 0 && <IconLockClose0 />}
+                            {securityPw == 1 && <IconLockClose1 />}
+                            {securityPw == 2 && <IconLockClose2 />}
+                            {securityPw == 3 && <IconLockClose3 />}
+                            <Text>{securityText}</Text>
                         </View>
                 </View>
                 

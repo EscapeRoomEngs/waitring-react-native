@@ -26,6 +26,7 @@ const SignUp = () => {
     const [digitCode, setDigitCode] = useState("");
 	const [password, setPassword] = useState("");
 	const [rePassword, setRePassword] = useState("");
+    const [securityPw, setSecurityPw] = useState(0)
 
     return (
         <KeyboardView children={
@@ -75,6 +76,8 @@ const SignUp = () => {
                         setPassword={setPassword}
 						rePassword={rePassword}
 						setRePassword={setRePassword}
+                        securityPw={securityPw}
+                        setSecurityPw={setSecurityPw}
 						/>
 					}
 						

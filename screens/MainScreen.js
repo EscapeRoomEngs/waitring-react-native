@@ -6,9 +6,9 @@ import TodoItem from "../components/TodoItem";
 import { useSelector } from "react-redux";
 
 const MainScreen = () => {
-    const todos = useSelector(state => state.todo.todoList);
-    const todoTasks = todos.filter((item) => !item.completed);
-    const completedTasks = todos.filter((item) => item.completed);
+	const todos = useSelector((state) => state.todo.todoList);
+	const todoTasks = todos.filter((item) => !item.completed);
+	const completedTasks = todos.filter((item) => item.completed);
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.pageTitle}>ToDo App</Text>

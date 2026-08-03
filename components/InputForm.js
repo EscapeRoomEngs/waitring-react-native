@@ -17,7 +17,8 @@ const InputForm = () => {
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			style={styles.addFormContainer}>
+			style={styles.addFormContainer}
+		>
 			<TextInput
 				style={styles.inputField}
 				placeholder="할 일을 작성해주세요."
@@ -25,7 +26,10 @@ const InputForm = () => {
 				onChangeText={setCurrentValue}
 				onSubmitEditing={handleSubmit}
 			/>
-			<Pressable style={[styles.addButton, currentValue!==""?styles.addButtonActivate:""]} onPress={handleSubmit}>
+			<Pressable
+				style={[styles.addButton, currentValue !== "" ? styles.addButtonActivate : ""]}
+				onPress={handleSubmit}
+			>
 				<Text style={styles.addButtonText}>+</Text>
 			</Pressable>
 		</KeyboardAvoidingView>
@@ -62,8 +66,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	addButtonActivate: {
-        backgroundColor: "rgba(0,0,0,0.4)",
-    },
+		backgroundColor: "rgba(0,0,0,0.4)",
+	},
 	addButtonText: {
 		fontSize: 25,
 		color: "#fff",

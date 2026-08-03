@@ -44,7 +44,8 @@ const StoreDetail = () => {
 				paddingBottom: Platform.OS === "android" ? 64 : 80,
 				overflowY: "scroll",
 				backgroundColor: "#fff",
-			}}>
+			}}
+		>
 			<ScrollView>
 				<View style={stylesHeaderNav.header}>
 					<ArrowBack style={stylesHeaderNav.headerIcon} />
@@ -52,9 +53,7 @@ const StoreDetail = () => {
 				<View style={stylesStoreArea}>
 					<View style={stylesStoreArea.storeHeader}>
 						<View style={stylesStoreArea.storeHeader.addressArea}>
-							<Text style={stylesStoreArea.storeHeader.addressArea.title}>
-								오늘도 브런치
-							</Text>
+							<Text style={stylesStoreArea.storeHeader.addressArea.title}>오늘도 브런치</Text>
 							<Favorite style={stylesStoreArea.icon} />
 						</View>
 						<Text style={stylesStoreArea.storeHeaderCaption}>
@@ -71,11 +70,7 @@ const StoreDetail = () => {
 					<ScrollView horizontal={true} style={stylesStoreArea.storeImageArea}>
 						<View style={stylesStoreArea.storeImageArea.imageContainer}>
 							{[StoreMainImage, StoreMainImage, StoreMainImage].map((src, sidx) => (
-								<Image
-									key={sidx}
-									source={src}
-									style={stylesStoreArea.storeImageArea.imageItem}
-								/>
+								<Image key={sidx} source={src} style={stylesStoreArea.storeImageArea.imageItem} />
 							))}
 						</View>
 					</ScrollView>
@@ -87,16 +82,13 @@ const StoreDetail = () => {
 					<View style={stylesReviewArea.reviewList}>
 						<View>
 							{reviews.map((review, ridx) => (
-								<ReviewItem
-									key={ridx}
-									review={review}
-									stylesReviewArea={stylesReviewArea}
-								/>
+								<ReviewItem key={ridx} review={review} stylesReviewArea={stylesReviewArea} />
 							))}
 						</View>
 						<LinearGradient
 							colors={["rgba(256, 256, 256, 0.0)", "#FFF", "#FFF"]}
-							style={stylesReviewArea.gradientBackground}>
+							style={stylesReviewArea.gradientBackground}
+						>
 							<View style={stylesReviewArea.buttonMore}>
 								<Text>더보기</Text>
 								<ArrowDown />

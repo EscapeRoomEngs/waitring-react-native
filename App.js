@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Provider } from "react-redux";
-import { store } from './redux/store';
+import { store } from "./redux/store";
 import MainScreen from "./screens/MainScreen";
 import Main from "./screens/store/StoreDetail";
 

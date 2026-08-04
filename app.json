@@ -6,6 +6,7 @@
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "light",
+		"scheme": "waitring",
 		"plugins": [
 			[
 				"expo-splash-screen",
@@ -14,7 +15,9 @@
 					"resizeMode": "contain",
 					"backgroundColor": "#ffffff"
 				}
-			]
+			],
+			"expo-router",
+			"expo-status-bar"
 		],
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
@@ -28,6 +31,9 @@
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
+		},
+		"experiments": {
+			"typedRoutes": true
 		}
 	}
 }

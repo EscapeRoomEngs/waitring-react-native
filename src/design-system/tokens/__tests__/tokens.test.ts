@@ -11,12 +11,22 @@ describe("design tokens", () => {
 	});
 
 	test("keeps every existing legacy color key available", () => {
-		expect(themeColors).toMatchObject({
+		const legacyColorMap = {
 			gray100: color.surface.subtle,
+			gray200: color.surface.muted,
+			gray300: color.border.default,
+			gray500: color.text.muted,
+			gray600: color.text.secondary,
+			gray700: "#444444",
 			gray900: color.text.primary,
+			orange100: color.action.primarySubtle,
+			orange300: color.action.accent,
 			orange500: color.action.primary,
 			borderBottom: color.border.strong,
-		});
+		};
+
+		expect(Object.keys(themeColors)).toEqual(Object.keys(legacyColorMap));
+		expect(themeColors).toEqual(legacyColorMap);
 	});
 
 	test("provides an AA-contrast error feedback color on the default surface", () => {

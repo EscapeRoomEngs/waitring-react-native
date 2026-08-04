@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import InputForm from "../components/InputForm";
 import TodoItem from "../components/TodoItem";
 import { useSelector } from "react-redux";

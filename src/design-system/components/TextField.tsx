@@ -11,9 +11,9 @@ export function TextField({ label, error, style, ...inputProps }: TextFieldProps
 		<View style={styles.container}>
 			<Text style={styles.label}>{label}</Text>
 			<TextInput
+				{...inputProps}
 				accessibilityLabel={label}
 				style={[styles.input, error && styles.inputError, style]}
-				{...inputProps}
 			/>
 			{error ? (
 				<Text accessibilityRole="alert" style={styles.error}>
@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
 		minHeight: 48,
 		paddingHorizontal: spacing[3],
 	},
-	inputError: { borderColor: color.action.primary },
-	error: { ...typography.body.sm, color: color.action.primary },
+	inputError: { borderColor: color.feedback.error },
+	error: { ...typography.body.sm, color: color.feedback.error },
 });

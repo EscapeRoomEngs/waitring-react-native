@@ -7,6 +7,7 @@ export { ApiError } from "./types";
 export const apiClient = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
 	timeout: 10_000,
+	validateStatus: () => true,
 });
 
 export function unwrapApiResponse<T>(response: ApiResponse<T>): T {

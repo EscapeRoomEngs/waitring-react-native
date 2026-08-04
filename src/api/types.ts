@@ -9,7 +9,7 @@ export interface ApiResult {
 }
 
 export interface ApiResponse<T> {
-	path?: string | null;
+	path: string | null;
 	status: ApiStatus | null;
 	result: ApiResult | null;
 	output: T | null;

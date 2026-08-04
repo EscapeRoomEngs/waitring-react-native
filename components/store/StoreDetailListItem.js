@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import MoreVert from "../../assets/icons/more_vert.svg";
 
-export const ReviewItem = ({review, stylesReviewArea}) => {
+export const ReviewItem = ({ review, stylesReviewArea }) => {
 	return (
 		<View style={stylesReviewArea.reviewItem}>
 			<View style={stylesReviewArea.reviewItem.profileArea}>

@@ -20,7 +20,7 @@ const todoSlice = createSlice({
 		deleteTodo: (state, action) => {
 			const idx = state.todoList.findIndex((todo) => todo.id === action.payload);
 			if (idx > -1) {
-                state.todoList.splice(idx, 1);
+				state.todoList.splice(idx, 1);
 			}
 		},
 	},

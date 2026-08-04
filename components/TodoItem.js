@@ -13,7 +13,8 @@ const TodoItem = (props) => {
 			<Pressable
 				style={styles.itemCheckbox}
 				hitSlop={10}
-				onPress={() => dispatch(updateTodo(props.id))}>
+				onPress={() => dispatch(updateTodo(props.id))}
+			>
 				{props.completed ? (
 					<CheckboxChecked style={styles.itemCheckboxCheckedIcon} />
 				) : (
@@ -26,7 +27,8 @@ const TodoItem = (props) => {
 			<Pressable
 				style={[styles.deleteButton, props.completed ? styles.deleteButtonDone : ""]}
 				hitSlop={10}
-				onPress={() => dispatch(deleteTodo(props.id))}>
+				onPress={() => dispatch(deleteTodo(props.id))}
+			>
 				<DeleteIcon />
 			</Pressable>
 		</View>

@@ -21,11 +21,13 @@
 ### Task 1: Establish Expo component-test infrastructure
 
 **Files:**
+
 - Modify: `package.json`
 - Modify: `package-lock.json`
 - Modify: `tsconfig.json`
 
 **Interfaces:**
+
 - Produces: `npm run test:ci`, which runs all tests once in CI.
 - Produces: Jest global types for TypeScript test files.
 
@@ -44,13 +46,13 @@ Add the following to `package.json`:
 
 ```json
 {
-  "scripts": {
-    "test": "jest --watch",
-    "test:ci": "jest --runInBand"
-  },
-  "jest": {
-    "preset": "jest-expo"
-  }
+	"scripts": {
+		"test": "jest --watch",
+		"test:ci": "jest --runInBand"
+	},
+	"jest": {
+		"preset": "jest-expo"
+	}
 }
 ```
 
@@ -58,9 +60,9 @@ Add `"jest"` to `compilerOptions.types` in `tsconfig.json`, retaining the existi
 
 ```json
 {
-  "compilerOptions": {
-    "types": ["jest"]
-  }
+	"compilerOptions": {
+		"types": ["jest"]
+	}
 }
 ```
 
@@ -80,6 +82,7 @@ git commit -m "test: add Expo component test foundation"
 ### Task 2: Define tokens and preserve the legacy color API
 
 **Files:**
+
 - Create: `src/design-system/tokens/colors.ts`
 - Create: `src/design-system/tokens/layout.ts`
 - Create: `src/design-system/tokens/typography.ts`
@@ -88,6 +91,7 @@ git commit -m "test: add Expo component test foundation"
 - Modify: `styles/variables.js`
 
 **Interfaces:**
+
 - Produces: `color`, `spacing`, `radius`, and `typography` token exports from `src/design-system/tokens`.
 - Produces: the unchanged `themeColors` named export from `styles/variables.js`.
 - Consumes: Jest globals configured by Task 1.
@@ -151,7 +155,10 @@ Create `typography.ts`:
 ```ts
 export const typography = {
 	body: { md: { fontSize: 14, lineHeight: 20 }, sm: { fontSize: 12, lineHeight: 18 } },
-	heading: { lg: { fontSize: 24, lineHeight: 28, fontWeight: "700" }, md: { fontSize: 18, lineHeight: 24, fontWeight: "700" } },
+	heading: {
+		lg: { fontSize: 24, lineHeight: 28, fontWeight: "700" },
+		md: { fontSize: 18, lineHeight: 24, fontWeight: "700" },
+	},
 	button: { fontSize: 18, lineHeight: 24, fontWeight: "700" },
 } as const;
 ```
@@ -200,6 +207,7 @@ git commit -m "feat: add semantic design tokens"
 ### Task 3: Build and test accessible UI primitives
 
 **Files:**
+
 - Create: `src/design-system/components/AppButton.tsx`
 - Create: `src/design-system/components/TextField.tsx`
 - Create: `src/design-system/components/Screen.tsx`
@@ -209,6 +217,7 @@ git commit -m "feat: add semantic design tokens"
 - Create: `src/design-system/components/__tests__/Screen.test.tsx`
 
 **Interfaces:**
+
 - Consumes: `color`, `spacing`, `radius`, and `typography` from Task 2.
 - Produces: `AppButton`, `TextField`, and `Screen` named exports from `src/design-system/components`.
 - `AppButton` accepts `label`, `variant?: "primary" | "secondary"`, `disabled?: boolean`, and `onPress?: () => void`.
@@ -240,7 +249,9 @@ import { render } from "@testing-library/react-native";
 import { TextField } from "../TextField";
 
 test("connects a visible label and optional error to the input", () => {
-	const { getByLabelText, getByText } = render(<TextField label="Phone number" error="Enter a valid number" />);
+	const { getByLabelText, getByText } = render(
+		<TextField label="Phone number" error="Enter a valid number" />
+	);
 	expect(getByLabelText("Phone number")).toBeTruthy();
 	expect(getByText("Enter a valid number")).toBeTruthy();
 });
@@ -254,7 +265,11 @@ import { Text } from "react-native";
 import { Screen } from "../Screen";
 
 test("renders children inside the screen container", () => {
-	const { getByText } = render(<Screen><Text>Content</Text></Screen>);
+	const { getByText } = render(
+		<Screen>
+			<Text>Content</Text>
+		</Screen>
+	);
 	expect(getByText("Content")).toBeTruthy();
 });
 ```
@@ -273,17 +288,51 @@ Create `AppButton.tsx`:
 import { Pressable, StyleSheet, Text } from "react-native";
 import { color, radius, spacing, typography } from "../tokens";
 
-type AppButtonProps = { label: string; variant?: "primary" | "secondary"; disabled?: boolean; onPress?: () => void };
+type AppButtonProps = {
+	label: string;
+	variant?: "primary" | "secondary";
+	disabled?: boolean;
+	onPress?: () => void;
+};
 
-export function AppButton({ label, variant = "primary", disabled = false, onPress }: AppButtonProps) {
+export function AppButton({
+	label,
+	variant = "primary",
+	disabled = false,
+	onPress,
+}: AppButtonProps) {
 	const isPrimary = variant === "primary";
-	return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={[styles.base, isPrimary ? styles.primary : styles.secondary, disabled && styles.disabled]}><Text style={isPrimary ? styles.primaryLabel : styles.secondaryLabel}>{label}</Text></Pressable>;
+	return (
+		<Pressable
+			accessibilityRole="button"
+			accessibilityLabel={label}
+			accessibilityState={{ disabled }}
+			disabled={disabled}
+			onPress={onPress}
+			style={[
+				styles.base,
+				isPrimary ? styles.primary : styles.secondary,
+				disabled && styles.disabled,
+			]}
+		>
+			<Text style={isPrimary ? styles.primaryLabel : styles.secondaryLabel}>{label}</Text>
+		</Pressable>
+	);
 }
 
 const styles = StyleSheet.create({
-	base: { alignItems: "center", borderRadius: radius.md, justifyContent: "center", minHeight: 56, paddingHorizontal: spacing[6] },
-	primary: { backgroundColor: color.action.primary }, secondary: { backgroundColor: color.action.primarySubtle }, disabled: { opacity: 0.45 },
-	primaryLabel: { ...typography.button, color: color.text.inverse }, secondaryLabel: { ...typography.button, color: color.action.primary },
+	base: {
+		alignItems: "center",
+		borderRadius: radius.md,
+		justifyContent: "center",
+		minHeight: 56,
+		paddingHorizontal: spacing[6],
+	},
+	primary: { backgroundColor: color.action.primary },
+	secondary: { backgroundColor: color.action.primarySubtle },
+	disabled: { opacity: 0.45 },
+	primaryLabel: { ...typography.button, color: color.text.inverse },
+	secondaryLabel: { ...typography.button, color: color.action.primary },
 });
 ```
 
@@ -296,13 +345,35 @@ import { color, radius, spacing, typography } from "../tokens";
 type TextFieldProps = TextInputProps & { label: string; error?: string };
 
 export function TextField({ label, error, style, ...inputProps }: TextFieldProps) {
-	return <View style={styles.container}><Text style={styles.label}>{label}</Text><TextInput accessibilityLabel={label} style={[styles.input, error && styles.inputError, style]} {...inputProps} />{error ? <Text accessibilityRole="alert" style={styles.error}>{error}</Text> : null}</View>;
+	return (
+		<View style={styles.container}>
+			<Text style={styles.label}>{label}</Text>
+			<TextInput
+				accessibilityLabel={label}
+				style={[styles.input, error && styles.inputError, style]}
+				{...inputProps}
+			/>
+			{error ? (
+				<Text accessibilityRole="alert" style={styles.error}>
+					{error}
+				</Text>
+			) : null}
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-	container: { gap: spacing[2] }, label: { ...typography.body.md, color: color.text.primary },
-	input: { borderColor: color.border.strong, borderRadius: radius.md, borderWidth: 1, minHeight: 48, paddingHorizontal: spacing[3] },
-	inputError: { borderColor: color.action.primary }, error: { ...typography.body.sm, color: color.action.primary },
+	container: { gap: spacing[2] },
+	label: { ...typography.body.md, color: color.text.primary },
+	input: {
+		borderColor: color.border.strong,
+		borderRadius: radius.md,
+		borderWidth: 1,
+		minHeight: 48,
+		paddingHorizontal: spacing[3],
+	},
+	inputError: { borderColor: color.action.primary },
+	error: { ...typography.body.sm, color: color.action.primary },
 });
 ```
 
@@ -316,7 +387,10 @@ type ScreenProps = SafeAreaViewProps & { padded?: boolean };
 export function Screen({ padded = true, style, ...props }: ScreenProps) {
 	return <SafeAreaView style={[styles.base, padded && styles.padded, style]} {...props} />;
 }
-const styles = StyleSheet.create({ base: { flex: 1, backgroundColor: color.surface.default }, padded: { paddingHorizontal: spacing[6] } });
+const styles = StyleSheet.create({
+	base: { flex: 1, backgroundColor: color.surface.default },
+	padded: { paddingHorizontal: spacing[6] },
+});
 ```
 
 ```ts
@@ -341,10 +415,12 @@ git commit -m "feat: add reusable design system primitives"
 ### Task 4: Document usage and enforce the new test gate
 
 **Files:**
+
 - Create: `docs/design-system.md`
 - Modify: `.github/workflows/quality.yml`
 
 **Interfaces:**
+
 - Consumes: public component exports from Task 3.
 - Produces: a contributor reference for primitive props and the incremental migration rule.
 - Produces: CI that runs component tests before formatting and iOS export.
@@ -353,7 +429,7 @@ git commit -m "feat: add reusable design system primitives"
 
 Create `docs/design-system.md` with this content:
 
-~~~~md
+````md
 # Design system
 
 Import semantic values from `src/design-system/tokens` and primitives from `src/design-system/components`.
@@ -363,11 +439,14 @@ Import semantic values from `src/design-system/tokens` and primitives from `src/
 `Screen` accepts `padded` and native `SafeAreaView` props.
 
 ```tsx
-<Screen><TextField label="휴대폰 번호" keyboardType="phone-pad" /><AppButton label="인증번호 요청" onPress={requestCode} /></Screen>
+<Screen>
+	<TextField label="휴대폰 번호" keyboardType="phone-pad" />
+	<AppButton label="인증번호 요청" onPress={requestCode} />
+</Screen>
 ```
 
 New feature code must use semantic tokens and these primitives. Existing screens may continue to import `themeColors` until their dedicated migration PR; do not mix unrelated screen redesigns into this foundation PR.
-~~~~
+````
 
 - [ ] **Step 2: Update the quality workflow**
 
@@ -402,9 +481,11 @@ git commit -m "docs: document design system adoption"
 ### Task 5: Final integration verification and draft PR
 
 **Files:**
+
 - Verify: all files changed by Tasks 1-4
 
 **Interfaces:**
+
 - Consumes: the completed token, primitive, test, documentation, and CI changes.
 - Produces: a draft PR targeting `dev`.
 

@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import ButtomBottom from "../../components/BottomButton";
-import { ReviewItem } from "../../components/store/StoreDetailListItem";
+import ButtomBottom from "../../components/common/BottomButton";
 
 import ArrowBack from "../../assets/icons/arrow-back.svg";
 import Favorite from "../../assets/icons/favorite.svg";

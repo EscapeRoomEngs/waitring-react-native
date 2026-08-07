@@ -4,12 +4,13 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import ButtomBottom from "../../components/common/BottomButton";
 
+import StoreMainImage from "../../assets/images/store-main-1.jpeg";
 import ArrowBack from "../../assets/icons/arrow-back.svg";
 import Favorite from "../../assets/icons/favorite.svg";
-import StoreMainImage from "../../assets/images/store-main-1.jpeg";
 import ArrowDown from "../../assets/icons/arrow-down.svg";
 import { themeColors } from "../../styles/variables";
 import { getStoreDetail } from "../../apis/store/stores";
+import { ReviewListArea } from "../../components/store/StoreDetailListItem";
 
 const StoreDetail = () => {
 	/**
@@ -19,22 +20,6 @@ const StoreDetail = () => {
 		getStoreDetail(1, (value) => console.log(value));
 	}, []);
 	const keywords = ["음식이 맛있어요 👍", "분위기가 좋아요🍷", "+2"];
-	const reviews = [
-		{
-			reviewer: "포실포실 카푸치노",
-			content:
-				"행궁동에 새로 생긴 카이센동 맛집이라고 해서 가봤는데 인테리어부터 너무 감각적이고 예뻤어요!! 맛나게 잘 먹고 갑니다",
-			visitCnt: 1,
-			liked: false,
-		},
-		{
-			reviewer: "향기로운 바닐라라떼",
-			content:
-				"행궁동에 새로 생긴 카이센동 맛집이라고 해서 가봤는데 인테리어부터 너무 감각적이고 예뻤어요!! 맛나게 잘 먹고 갑니다",
-			visitCnt: 10,
-			liked: false,
-		},
-	];
 	return (
 		<SafeAreaView
 			style={{
@@ -84,15 +69,10 @@ const StoreDetail = () => {
 				<View style={stylesReviewArea}>
 					<Text style={stylesReviewArea.title}>최근 작성된 리뷰</Text>
 					<View style={stylesReviewArea.reviewList}>
-						<View>
-							{reviews.map((review, ridx) => (
-								<ReviewItem
-									key={ridx}
-									review={review}
-									stylesReviewArea={stylesReviewArea}
-								/>
-							))}
-						</View>
+						<ReviewListArea
+						// TODO: 리뷰 데이터 연결
+						// reviewList={review}
+						/>
 						<LinearGradient
 							colors={["rgba(256, 256, 256, 0.0)", "#FFF", "#FFF"]}
 							style={stylesReviewArea.gradientBackground}>
@@ -192,53 +172,6 @@ const stylesReviewArea = StyleSheet.create({
 	paddingVertical: 40,
 	gap: 16,
 	title: { fontSize: 18, fontWeight: "700", paddingHorizontal: 24 },
-	reviewItem: {
-		paddingVertical: 16,
-		paddingHorizontal: 24,
-		flexDirection: "column",
-		borderBottomColor: themeColors.gray300,
-		borderBottomWidth: 1,
-		gap: 16,
-		profileArea: {
-			flexDirection: "row",
-			justifyContent: "space-between",
-			left: {
-				flexDirection: "row",
-				alignItems: "center",
-				gap: 8,
-			},
-			right: {
-				flexDirection: "row",
-				alignItems: "center",
-				gap: 8,
-			},
-		},
-		profile: {
-			width: 36,
-			aspectRatio: 1,
-			borderRadius: "100%",
-			backgroundColor: themeColors.gray300 || "#E7E7E7E",
-		},
-		name: {
-			color: "#191919",
-			fontSize: 14,
-			fontWeight: 600,
-		},
-		visitCnt: {
-			color: "#888",
-			fontSize: 12,
-			fontWeight: 400,
-		},
-		likedButton: {
-			paddingVertical: 8,
-			paddingHorizontal: 16,
-			fontSize: 12,
-			fontWeight: 600,
-			borderRadius: 4,
-			color: themeColors.orange500,
-			backgroundColor: themeColors.orange100,
-		},
-	},
 	reviewList: {
 		position: "relative",
 	},

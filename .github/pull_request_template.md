@@ -4,7 +4,7 @@
 
 ## 검증
 
-- [ ] `npm run verify`
+- [ ] 로컬 `npm run check` 통과 (GitHub Actions CI 없음)
 - [ ] iOS 또는 Android에서 변경 흐름을 확인했습니다.
 - [ ] 화면 변경이 있으면 전/후 스크린샷을 첨부했습니다.
 

@@ -9,6 +9,7 @@
 		"web": "expo start --web",
 		"format": "npx --yes prettier@3.9.6 --write .",
 		"format:check": "npx --yes prettier@3.9.6 --check .",
+		"check": "npm run test:ci && npm run verify",
 		"verify": "npm run format:check && npx expo export --platform ios --output-dir dist",
 		"typecheck": "tsc --noEmit",
 		"test": "jest --watch",

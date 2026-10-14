@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { storeApi } from "../../api/store";
 import type { StoreDetail } from "../../api/types";
-import { useStoreDetail } from "../store";
+import { storeQueryKeys, useStoreDetail } from "../store";
 
 const detail: StoreDetail = {
 	storeNm: "Cafe",
@@ -23,6 +23,9 @@ const detail: StoreDetail = {
 };
 
 afterEach(() => jest.restoreAllMocks());
+
+test("builds a stable detail query key", () =>
+	expect(storeQueryKeys.detail(1)).toEqual(["store", "detail", 1]));
 
 test("returns typed detail data", async () => {
 	jest.spyOn(storeApi, "getDetail").mockResolvedValue(detail);

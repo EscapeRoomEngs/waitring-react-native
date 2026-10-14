@@ -10,17 +10,22 @@ export const apiClient = axios.create({
 	validateStatus: () => true,
 });
 
-export function unwrapApiResponse<T>(response: ApiResponse<T>): T {
-	const statusCode = response.status?.statusCd;
+// Only transport failures (offline, timeout) reject here; HTTP errors arrive as envelopes.
+apiClient.interceptors.response.use(undefined, (error: Error) =>
+	Promise.reject(new ApiError(error.message || "Network request failed"))
+);
+
+export function unwrapApiResponse<T>(response: ApiResponse<T> | null | undefined): T {
+	const statusCode = response?.status?.statusCd;
 
 	if (
 		statusCode !== undefined &&
 		statusCode >= 200 &&
 		statusCode < 300 &&
-		response.output !== null
+		response?.output != null
 	) {
 		return response.output;
 	}
 
-	throw new ApiError(response.result?.resultMsg || "API request failed", response.status?.statusCd);
+	throw new ApiError(response?.result?.resultMsg || "API request failed", statusCode);
 }

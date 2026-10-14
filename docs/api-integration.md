@@ -23,7 +23,7 @@ type ApiResponse<T> = {
 };
 ```
 
-`apiClient` (`src/api/client.ts`) accepts every HTTP status so the envelope reaches `unwrapApiResponse`. It returns `output` for a 2xx `statusCd` and throws `ApiError` (`message` from `result.resultMsg`, `statusCode` from `status.statusCd`) otherwise.
+`apiClient` (`src/api/client.ts`) accepts every HTTP status so the envelope reaches `unwrapApiResponse`. It returns `output` for a 2xx `statusCd` and throws `ApiError` (`message` from `result.resultMsg`, `statusCode` from `status.statusCd`) otherwise, including a missing `output` or an empty body. Transport failures (offline, timeout) are rejected as `ApiError` without `statusCode`.
 
 ## Store detail
 

@@ -9,13 +9,22 @@
 
 
 ## Quick Start
-+ setting: install Node.js v18.18.0
++ setting
+  + 필수 install node.js (18.17.0 LTS)
+  + 필수 install VScode
+  + 선택 install extentions in VScode
+    - ESLint
+    - ES7+ React/Redux/React-Native snippets
+    - Prettier
+    - Material Icon
+
 
 + install
 ```
 git clone https://github.com/EscapeRoomEngs/waitring-react-native.git
 npm install
 ```
+► clone 혹은 pull 받은 후 `Module Not Found` 에러가 뜬다면 `npm install` 실행
 
 + run Expo app
 ```

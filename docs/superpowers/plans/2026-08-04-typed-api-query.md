@@ -29,8 +29,22 @@
 ```ts
 import { unwrapApiResponse } from "../client";
 
-test("unwraps output", () => expect(unwrapApiResponse({ status: { statusCd: 200, statusNm: "OK" }, result: null, output: { storeNm: "Cafe" } })).toEqual({ storeNm: "Cafe" }));
-test("throws server result message", () => expect(() => unwrapApiResponse({ status: { statusCd: 404, statusNm: "NOT_FOUND" }, result: { resultCd: "NOT_FOUND", resultMsg: "missing" }, output: null })).toThrow("missing"));
+test("unwraps output", () =>
+	expect(
+		unwrapApiResponse({
+			status: { statusCd: 200, statusNm: "OK" },
+			result: null,
+			output: { storeNm: "Cafe" },
+		})
+	).toEqual({ storeNm: "Cafe" }));
+test("throws server result message", () =>
+	expect(() =>
+		unwrapApiResponse({
+			status: { statusCd: 404, statusNm: "NOT_FOUND" },
+			result: { resultCd: "NOT_FOUND", resultMsg: "missing" },
+			output: null,
+		})
+	).toThrow("missing"));
 ```
 
 - [ ] **Step 2: Confirm red**
@@ -46,12 +60,23 @@ Install: `npm install @tanstack/react-query`
 Define the complete server `StoreDetail` shape in `types.ts`: `storeNm`, `storeDetail`, `companyNm`, `mallNm`, `locate`, `openTm`, `closeTm`, `closeDay`, `telNo`, `waitingFg`, `waitingTeamCnt`, `waitingTm`, `likedStoreCnt`, `storeImageLink`.
 
 ```ts
-export const apiClient = axios.create({ baseURL: process.env.EXPO_PUBLIC_API_BASE_URL, timeout: 10_000 });
+export const apiClient = axios.create({
+	baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
+	timeout: 10_000,
+});
 export function unwrapApiResponse<T>(response: ApiResponse<T>): T {
-	if (response.status?.statusCd >= 200 && response.status.statusCd < 300 && response.output !== null) return response.output;
+	if (
+		response.status?.statusCd >= 200 &&
+		response.status.statusCd < 300 &&
+		response.output !== null
+	)
+		return response.output;
 	throw new ApiError(response.result?.resultMsg || "API request failed", response.status?.statusCd);
 }
-export const storeApi = { getDetail: async (id: number) => unwrapApiResponse((await apiClient.get<ApiResponse<StoreDetail>>("/store/" + id)).data) };
+export const storeApi = {
+	getDetail: async (id: number) =>
+		unwrapApiResponse((await apiClient.get<ApiResponse<StoreDetail>>("/store/" + id)).data),
+};
 ```
 
 - [ ] **Step 4: Confirm green and commit**
@@ -77,7 +102,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useStoreDetail } from "../store";
 
 test("returns typed detail data", async () => {
-	const wrapper = ({ children }: { children: React.ReactNode }) => <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>{children}</QueryClientProvider>;
+	const wrapper = ({ children }: { children: React.ReactNode }) => (
+		<QueryClientProvider
+			client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+		>
+			{children}
+		</QueryClientProvider>
+	);
 	const { result } = renderHook(() => useStoreDetail(1), { wrapper });
 	await waitFor(() => expect(result.current.isSuccess).toBe(true));
 	expect(result.current.data?.storeNm).toBe("Cafe");
@@ -93,9 +124,20 @@ Expected: FAIL because `store.ts` is absent.
 - [ ] **Step 3: Implement the Query boundary**
 
 ```ts
-export const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, staleTime: 30_000 } } });
-export const storeQueryKeys = { all: ["store"] as const, detail: (id: number) => [...storeQueryKeys.all, "detail", id] as const };
-export function useStoreDetail(id: number) { return useQuery({ queryKey: storeQueryKeys.detail(id), queryFn: () => storeApi.getDetail(id), enabled: Number.isInteger(id) && id > 0 }); }
+export const queryClient = new QueryClient({
+	defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
+});
+export const storeQueryKeys = {
+	all: ["store"] as const,
+	detail: (id: number) => [...storeQueryKeys.all, "detail", id] as const,
+};
+export function useStoreDetail(id: number) {
+	return useQuery({
+		queryKey: storeQueryKeys.detail(id),
+		queryFn: () => storeApi.getDetail(id),
+		enabled: Number.isInteger(id) && id > 0,
+	});
+}
 ```
 
 Wrap the current Redux children in `QueryClientProvider client={queryClient}` inside `app/_layout.tsx`, keeping Stack options unchanged.

@@ -5,7 +5,5 @@ export type { StoreDetail } from "./types";
 
 export const storeApi = {
 	getDetail: async (id: number): Promise<StoreDetail> =>
-		unwrapApiResponse(
-			(await apiClient.get<ApiResponse<StoreDetail>>("/store/" + id)).data,
-		),
+		unwrapApiResponse((await apiClient.get<ApiResponse<StoreDetail>>("/store/" + id)).data),
 };

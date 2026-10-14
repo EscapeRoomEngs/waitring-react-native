@@ -11,7 +11,7 @@ test("unwraps output", () =>
 			status: { statusCd: 200, statusNm: "OK" },
 			result: null,
 			output: { storeNm: "Cafe" },
-		}),
+		})
 	).toEqual({ storeNm: "Cafe" }));
 
 test("throws server result message", () =>
@@ -21,7 +21,7 @@ test("throws server result message", () =>
 			status: { statusCd: 404, statusNm: "NOT_FOUND" },
 			result: { resultCd: "NOT_FOUND", resultMsg: "missing" },
 			output: null,
-		}),
+		})
 	).toThrow("missing"));
 
 test("maps a 404 Spring envelope to ApiError through storeApi", async () => {

@@ -18,7 +18,7 @@ export interface ApiResponse<T> {
 export class ApiError extends Error {
 	constructor(
 		message: string,
-		public readonly statusCode?: number,
+		public readonly statusCode?: number
 	) {
 		super(message);
 		this.name = "ApiError";

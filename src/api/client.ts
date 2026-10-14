@@ -13,12 +13,14 @@ export const apiClient = axios.create({
 export function unwrapApiResponse<T>(response: ApiResponse<T>): T {
 	const statusCode = response.status?.statusCd;
 
-	if (statusCode !== undefined && statusCode >= 200 && statusCode < 300 && response.output !== null) {
+	if (
+		statusCode !== undefined &&
+		statusCode >= 200 &&
+		statusCode < 300 &&
+		response.output !== null
+	) {
 		return response.output;
 	}
 
-	throw new ApiError(
-		response.result?.resultMsg || "API request failed",
-		response.status?.statusCd,
-	);
+	throw new ApiError(response.result?.resultMsg || "API request failed", response.status?.statusCd);
 }

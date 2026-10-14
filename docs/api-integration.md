@@ -8,7 +8,7 @@ Set the server origin in `.env.local` (ignored by Git). See `.env.example`.
 EXPO_PUBLIC_API_BASE_URL=https://api.example.com
 ```
 
-There is no fallback URL. When the variable is unset, requests go to a relative path and fail.
+There is no fallback URL, and the variable is required on every platform. When it is unset, Axios requests a relative path such as `/store/1`: on iOS and Android that has no host and fails as a transport `ApiError`; on web it goes to the origin serving the app, which is not the API server.
 
 ## Response envelope
 

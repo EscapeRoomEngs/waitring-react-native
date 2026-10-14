@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react-native";
 import type { ReactNode } from "react";
 
+import { ApiError } from "../../api/client";
 import { storeApi } from "../../api/store";
 import type { StoreDetail } from "../../api/types";
 import { storeQueryKeys, useStoreDetail } from "../store";
@@ -52,6 +53,21 @@ test.each([0, -1, 1.5, Number.NaN])("does not request store detail for id %p", a
 
 	expect(result.current.fetchStatus).toBe("idle");
 	expect(getDetail).not.toHaveBeenCalled();
+	await unmount();
+	queryClient.clear();
+});
+
+test("exposes ApiError from the store API", async () => {
+	jest.spyOn(storeApi, "getDetail").mockRejectedValue(new ApiError("missing", 404));
+	const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+	const wrapper = ({ children }: { children: ReactNode }) => (
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+	);
+	const { result, unmount } = await renderHook(() => useStoreDetail(1), { wrapper });
+
+	await waitFor(() => expect(result.current.isError).toBe(true));
+	expect(result.current.error).toBeInstanceOf(ApiError);
+	expect(result.current.error).toMatchObject({ message: "missing", statusCode: 404 });
 	await unmount();
 	queryClient.clear();
 });

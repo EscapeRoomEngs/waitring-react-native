@@ -27,13 +27,15 @@ const ok = { statusCd: 200, statusNm: "OK" };
 
 function respond(status: number, data: unknown) {
 	// Asserting inside the adapter would be swallowed by the ApiError interceptor, so record instead.
-	const adapter = jest.fn<ReturnType<AxiosAdapter>, Parameters<AxiosAdapter>>(async (config) => ({
-		data,
-		status,
-		statusText: "",
-		headers: {},
-		config,
-	}));
+	const adapter = jest.fn<ReturnType<AxiosAdapter>, Parameters<AxiosAdapter>>(async (config) => {
+		const response = { data, status, statusText: "", headers: {}, config };
+
+		// Like the real adapters, reject statuses the client's validateStatus does not accept.
+		if (config.validateStatus && !config.validateStatus(status)) {
+			throw new AxiosError("Request failed", AxiosError.ERR_BAD_RESPONSE, config, null, response);
+		}
+		return response;
+	});
 	apiClient.defaults.adapter = adapter;
 	return adapter;
 }

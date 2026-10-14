@@ -41,3 +41,17 @@ test("returns typed detail data", async () => {
 	await unmount();
 	queryClient.clear();
 });
+
+test.each([0, -1, 1.5, Number.NaN])("does not request store detail for id %p", async (id) => {
+	const getDetail = jest.spyOn(storeApi, "getDetail").mockResolvedValue(detail);
+	const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+	const wrapper = ({ children }: { children: ReactNode }) => (
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+	);
+	const { result, unmount } = await renderHook(() => useStoreDetail(id), { wrapper });
+
+	expect(result.current.fetchStatus).toBe("idle");
+	expect(getDetail).not.toHaveBeenCalled();
+	await unmount();
+	queryClient.clear();
+});

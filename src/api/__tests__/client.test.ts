@@ -26,15 +26,26 @@ const detail: StoreDetail = {
 const ok = { statusCd: 200, statusNm: "OK" };
 
 function respond(status: number, data: unknown) {
-	const adapter: AxiosAdapter = async (config) => ({
+	// Asserting inside the adapter would be swallowed by the ApiError interceptor, so record instead.
+	const adapter = jest.fn<ReturnType<AxiosAdapter>, Parameters<AxiosAdapter>>(async (config) => ({
 		data,
 		status,
 		statusText: "",
 		headers: {},
 		config,
-	});
+	}));
 	apiClient.defaults.adapter = adapter;
+	return adapter;
 }
+
+test("requests GET /store/{id}", async () => {
+	const adapter = respond(200, { path: "/store/7", status: ok, result: null, output: detail });
+
+	await storeApi.getDetail(7);
+
+	expect(adapter).toHaveBeenCalledTimes(1);
+	expect(adapter.mock.calls[0][0]).toMatchObject({ method: "get", url: "/store/7" });
+});
 
 afterEach(() => {
 	apiClient.defaults.adapter = defaultAdapter;
@@ -79,6 +90,24 @@ test("maps a 404 Spring envelope to ApiError through storeApi", async () => {
 
 	await expect(request).rejects.toBeInstanceOf(ApiError);
 	await expect(request).rejects.toMatchObject({ message: "missing", statusCode: 404 });
+});
+
+test.each([
+	["an object", { detail: "missing" }],
+	["an object without toString", { toString: null }],
+])("falls back to the default message when resultMsg is %s", async (_, resultMsg) => {
+	respond(404, {
+		path: "/store/1",
+		status: { statusCd: 404, statusNm: "NOT_FOUND" },
+		result: { resultCd: "NOT_FOUND", resultMsg },
+		output: null,
+	});
+
+	await expect(storeApi.getDetail(1)).rejects.toMatchObject({
+		name: "ApiError",
+		message: "API request failed",
+		statusCode: 404,
+	});
 });
 
 test("keeps the HTTP status when the envelope claims success", async () => {

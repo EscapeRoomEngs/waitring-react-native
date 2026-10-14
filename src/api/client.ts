@@ -31,8 +31,10 @@ export function unwrapApiResponse<T>(body: unknown, httpStatus = 200): T {
 		return envelope.output;
 	}
 
+	const resultMsg = envelope?.result?.resultMsg;
+
 	throw new ApiError(
-		envelope?.result?.resultMsg || "API request failed",
+		typeof resultMsg === "string" && resultMsg ? resultMsg : "API request failed",
 		httpOk && typeof statusCode === "number" ? statusCode : httpStatus
 	);
 }

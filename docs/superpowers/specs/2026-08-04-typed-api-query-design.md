@@ -35,4 +35,4 @@ type ApiResponse<T> = {
 ## Verification
 
 - Unit-test envelope unwrapping, server failure mapping, query-key stability, and the store-detail query hook with a mocked client.
-- Run Jest, type checking, iOS/Android/web exports, Expo Doctor, formatting, and the existing GitHub quality gate.
+- Run `npm run check` (type checking, Jest, formatting, iOS export), Android/web exports, and Expo Doctor locally. There is no GitHub Actions CI.

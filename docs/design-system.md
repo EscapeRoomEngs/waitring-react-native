@@ -129,7 +129,7 @@
 ### 4.4 화면 구조
 
 ```text
-Screen (SafeArea, surface.default)
+Screen padded={false} (SafeArea, surface.default)
 ├─ Header: 높이 56, 좌우 spacing[6], 아이콘 24
 ├─ ScrollView
 │  ├─ Section: 좌우 spacing[6], 위아래 spacing[10]
@@ -137,6 +137,8 @@ Screen (SafeArea, surface.default)
 │  └─ Section
 └─ AppButton (primary, 하단 고정)
 ```
+
+전체 너비 구분선·가로 스크롤이 있는 화면은 `Screen padded={false}`로 두고 각 영역이 좌우 `spacing[6]`을 가진다. 폼처럼 전체 너비 요소가 없는 화면은 기본 `Screen`(좌우 `spacing[6]`)을 쓰고 자식에 좌우 여백을 다시 주지 않는다.
 
 가로 스크롤 이미지는 좌우 `spacing[6]`에서 시작하고 이미지 사이 간격은 `spacing[2]`다.
 

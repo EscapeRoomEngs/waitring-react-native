@@ -35,7 +35,7 @@ export interface StoreDetail {
 	closeTm: string;
 	closeDay: string;
 	telNo: string;
-	waitingFg: string;
+	waitingFg: boolean;
 	waitingTeamCnt: number;
 	waitingTm: number;
 	likedStoreCnt: number;

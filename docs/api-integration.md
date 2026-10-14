@@ -23,7 +23,9 @@ type ApiResponse<T> = {
 };
 ```
 
-`apiClient` (`src/api/client.ts`) accepts every HTTP status so the envelope reaches `unwrapApiResponse`. It returns `output` for a 2xx `statusCd` and throws `ApiError` (`message` from `result.resultMsg`, `statusCode` from `status.statusCd`) otherwise, including a missing `output` or an empty body. Transport failures (offline, timeout) are rejected as `ApiError` without `statusCode`.
+`apiClient` (`src/api/client.ts`) accepts every HTTP status so the envelope reaches `unwrapApiResponse(body, httpStatus)`. It returns `output` only when both the HTTP status and a numeric `status.statusCd` are 2xx and `output` is present. Otherwise it throws `ApiError` with `message` from `result.resultMsg` and `statusCode` from the HTTP status (or `statusCd` when the HTTP status is 2xx). This covers non-JSON error pages, empty bodies, and missing `output`. Transport failures (offline, timeout) are rejected as `ApiError` without `statusCode`.
+
+`storeApi.getDetail` also checks the payload against the server's `FindStoreDetailOutput` (strings, numbers, boolean `waitingFg`, optional `storeImageLink`) and rejects a mismatch as `ApiError`.
 
 ## Store detail
 

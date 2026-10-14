@@ -21,7 +21,7 @@ There is no GitHub Actions CI. Run the full local check before requesting review
 npm run check
 ```
 
-It runs the Jest tests, checks formatting, and verifies that Expo can create an iOS JavaScript bundle. Native device checks remain required for any UI or platform change.
+It runs the TypeScript check and the Jest tests, checks formatting, and verifies that Expo can create an iOS JavaScript bundle. Native device checks remain required for any UI or platform change.
 
 ## GitHub settings to configure
 

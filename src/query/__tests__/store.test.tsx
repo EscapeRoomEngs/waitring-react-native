@@ -16,7 +16,7 @@ const detail: StoreDetail = {
 	closeTm: "18:00",
 	closeDay: "Monday",
 	telNo: "010-0000-0000",
-	waitingFg: "Y",
+	waitingFg: true,
 	waitingTeamCnt: 2,
 	waitingTm: 10,
 	likedStoreCnt: 3,

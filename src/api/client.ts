@@ -15,17 +15,28 @@ apiClient.interceptors.response.use(undefined, (error: Error) =>
 	Promise.reject(new ApiError(error.message || "Network request failed"))
 );
 
-export function unwrapApiResponse<T>(response: ApiResponse<T> | null | undefined): T {
-	const statusCode = response?.status?.statusCd;
+// The body is untrusted JSON, so the envelope is checked at runtime instead of trusted via generics.
+export function unwrapApiResponse<T>(body: unknown, httpStatus = 200): T {
+	const envelope = isRecord(body) ? (body as Partial<ApiResponse<T>>) : undefined;
+	const statusCode = envelope?.status?.statusCd;
+	const httpOk = httpStatus >= 200 && httpStatus < 300;
 
 	if (
-		statusCode !== undefined &&
+		httpOk &&
+		typeof statusCode === "number" &&
 		statusCode >= 200 &&
 		statusCode < 300 &&
-		response?.output != null
+		envelope?.output != null
 	) {
-		return response.output;
+		return envelope.output;
 	}
 
-	throw new ApiError(response?.result?.resultMsg || "API request failed", statusCode);
+	throw new ApiError(
+		envelope?.result?.resultMsg || "API request failed",
+		httpOk && typeof statusCode === "number" ? statusCode : httpStatus
+	);
+}
+
+export function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null;
 }

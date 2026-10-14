@@ -120,7 +120,7 @@
 
 - **주요 행동**: 화면당 하나의 `AppButton variant="primary"`. 하단 고정일 때 Safe Area 하단 여백을 포함한다.
 - **보조 행동**(인증번호 재전송 등): `AppButton variant="secondary"`.
-- **누름 피드백**: opacity 0.7로 통일한다(레거시 `BottomButton`과 같은 값). `loading` 상태는 필요한 화면이 생길 때 `AppButton`에 추가한다.
+- **누름 피드백**: opacity 0.7로 통일한다(레거시 `BottomButton`과 같은 값). `AppButton`에는 아직 구현되지 않았다(5장). `loading` 상태는 필요한 화면이 생길 때 `AppButton`에 추가한다.
 - **입력 필드**: 신규 화면은 박스형 `TextField`를 쓴다. 레거시 언더라인 입력은 화면을 이전할 때 교체한다.
 - **칩**: `body.sm`, 세로 6 · 가로 `spacing[4]`, `radius.pill`, 1px `surface.muted` 테두리.
 - **리뷰 목록 항목**: 좌우 `spacing[6]`, 상하·내부 `spacing[4]`, 하단 1px `border.default`. 메타 정보는 `body.sm` + `text.muted`.
@@ -147,12 +147,13 @@ Screen (SafeArea, surface.default)
 | 우선순위 | 위치                                                         | 차이                                                                                            | 조치                                                           |
 | -------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | 높음     | `screens/store/StoreDetail.js:89`                            | `rgba(256, 256, 256, 0.0)` — 채널 범위(0–255) 초과                                              | `rgba(255, 255, 255, 0)`                                       |
-| 높음     | `screens/store/StoreDetail.js:212`                           | `borderRadius: "100%"` — 네이티브는 숫자만 허용                                                 | `radius.pill`                                                  |
 | 높음     | `screens/MainScreen.js:70`                                   | `fontWeight: "semibold"` — React Native에 없는 값                                               | `"600"`                                                        |
 | 높음     | `components/TextInputField.js:33`                            | `disabled`는 `TextInput` prop이 아님                                                            | `editable={!disabled}`                                         |
 | 높음     | `components/KeyboardView.js:8`                               | `Platform`을 import하지 않고 사용                                                               | import 추가                                                    |
 | 중간     | `screens/store/StoreDetail.js` 46·89·156·180·216·221·254·260 | `#fff`, `#FFF`, `#F2F2F2`, `#F8F8F8`, `#191919`, `#888`, `"white"`, `#DDD` 직접 입력            | 대응 토큰으로 교체, `#DDD`는 `border.default`                  |
 | 중간     | `StoreDetail.js`, `SignUp.js`, `member/Input*`               | `themeColors.x \|\| "#..."` 대체값은 불필요하고, `StoreDetail.js:213`의 `#E7E7E7E`는 잘못된 hex | 대체값 삭제                                                    |
+| 중간     | `src/design-system/components/AppButton.tsx:26`              | 누름 상태 스타일이 없음 — 4.3 누름 피드백(opacity 0.7) 미구현                                   | `Pressable` `style` 함수로 `pressed`일 때 opacity 0.7          |
+| 낮음     | `screens/store/StoreDetail.js:212`                           | `borderRadius: "100%"` — 동작은 하지만 토큰 밖 값                                               | `radius.pill`                                                  |
 | 중간     | `screens/store/StoreDetail.js` 45·160–164                    | `overflowX`·`overflowY` — 웹 전용 스타일                                                        | `ScrollView`로 처리                                            |
 | 중간     | 화면·컴포넌트 전반                                           | 굵기 `"bold"`·`"normal"`·숫자 `400`/`600` 혼용                                                  | 3.2 규칙                                                       |
 | 중간     | `BottomButton`, `TextInputField`, `member/Input*`            | 공통 컴포넌트 대신 개별 구현                                                                    | 4.2 대체 대상으로 이전                                         |
@@ -163,8 +164,9 @@ Screen (SafeArea, surface.default)
 
 ## 6. 적용 순서
 
-1. **매장 상세**: `StoreDetail`을 `Screen`·`AppButton`과 토큰으로 이전하면서 5장 항목 중 이 화면에 해당하는 것을 고친다.
-2. **회원가입**: `SignUp`·`member/Input*`을 `TextField`·`AppButton`으로 이전하고 `TextInputField`·`KeyboardView` 문제를 고친다.
-3. **레거시 정리**: `BottomButton`·`TextInputField` import가 사라지면 삭제하고, 예제 To-do 화면을 정리한다.
-4. **어댑터 제거**: `themeColors` import가 남지 않으면 `styles/variables.js`를 삭제한다.
-5. **이후 화면**: 웨이팅 신청·상태 화면은 처음부터 이 문서의 토큰과 공통 컴포넌트만 쓴다.
+1. **공통 컴포넌트 보완**: `AppButton`에 누름 피드백을 추가한다. 화면 이전 전에 끝내 첫 적용 화면부터 표준 동작을 갖게 한다.
+2. **매장 상세**: `StoreDetail`을 `Screen`·`AppButton`과 토큰으로 이전하면서 5장 항목 중 이 화면에 해당하는 것을 고친다.
+3. **회원가입**: `SignUp`·`member/Input*`을 `TextField`·`AppButton`으로 이전하고 `TextInputField`·`KeyboardView` 문제를 고친다.
+4. **레거시 정리**: `BottomButton`·`TextInputField` import가 사라지면 삭제하고, 예제 To-do 화면을 정리한다.
+5. **어댑터 제거**: `themeColors` import가 남지 않으면 `styles/variables.js`를 삭제한다.
+6. **이후 화면**: 웨이팅 신청·상태 화면은 처음부터 이 문서의 토큰과 공통 컴포넌트만 쓴다.

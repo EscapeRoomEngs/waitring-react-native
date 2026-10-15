@@ -30,7 +30,7 @@ const TextInputField = ({
 				keyboardType={keyboardType}
 				placeholder={placeholder}
 				onChange={(event) => onValueChanged(event.nativeEvent.text)}
-				disabled={disabled}
+				editable={!disabled}
 				maxLength={maxLength}
 			/>
 			{isPassword && value.length > 0 && (

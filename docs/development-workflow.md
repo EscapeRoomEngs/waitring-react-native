@@ -15,13 +15,13 @@ origin/develop → dev → feature/* PR → dev → release PR → main
 
 ## Required checks
 
-Run the following before requesting review:
+There is no GitHub Actions CI. Run the full local check before requesting review:
 
 ```bash
-npm run verify
+npm run check
 ```
 
-It checks formatting and verifies that Expo can create an iOS JavaScript bundle. Native device checks remain required for any UI or platform change.
+It runs the TypeScript check and the Jest tests, checks formatting, and verifies that Expo can create an iOS JavaScript bundle. Native device checks remain required for any UI or platform change.
 
 ## GitHub settings to configure
 
@@ -29,7 +29,6 @@ Repository administrators must configure these outside the repository after GitH
 
 - Block direct pushes to `main` and `dev`.
 - Require one approving review for `dev` and two for `main`.
-- Require the `Quality Gate / Format and iOS bundle export` check before merge.
 - Require the branch to be up to date before merge.
 
 ## Release gate

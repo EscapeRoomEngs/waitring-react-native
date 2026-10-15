@@ -1,6 +1,6 @@
 import React from "react";
 
-import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { KeyboardAvoidingView, Keyboard, Platform, TouchableWithoutFeedback } from "react-native";
 
 const KeyboardView = ({ children }) => {
 	return (
